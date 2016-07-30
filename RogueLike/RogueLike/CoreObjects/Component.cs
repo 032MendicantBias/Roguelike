@@ -5,8 +5,8 @@ using System.Diagnostics;
 namespace RogueLike.CoreObjects
 {
     /// <summary>
-    /// This class is the very base class for game objects and screens
-    /// It holds very basic information
+    /// This class is the very base class for game objects and screens.
+    /// It holds very basic information and is marked as abstract because it does not have enough functionality to survive by itself.
     /// It contains the basic functions that all game objects and screens should call:
     /// LoadContent - obtain textures and data
     /// Initialise - set up class variables from data
@@ -15,8 +15,7 @@ namespace RogueLike.CoreObjects
     /// Update - updates the class logic
     /// Draw - rendering
     /// </summary>
-
-    public class Component
+    public abstract class Component
     {
         #region
 

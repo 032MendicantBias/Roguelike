@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CoreObjects\BaseObject.cs" />
     <Compile Include="CoreObjects\Component.cs" />
     <Compile Include="Extensions\ExtensionFunctions.cs" />
     <Compile Include="Game1.cs" />
