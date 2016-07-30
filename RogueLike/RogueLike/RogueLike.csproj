@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoreObjects\Component.cs" />
+    <Compile Include="Extensions\ExtensionFunctions.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Interfaces\IContainer.cs" />
     <Compile Include="Managers\AssetManager.cs" />
