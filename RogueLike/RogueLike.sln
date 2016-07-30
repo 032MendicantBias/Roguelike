@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RogueLike", "RogueLike\RogueLike.csproj", "{ECDE0132-92A5-4E2E-9CAD-DA6D2ACCAB8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRogueLike", "Game1\TestRogueLike.csproj", "{5B1CB87C-52B6-4742-BB17-32CE9B135F3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRogueLike", "TestRogueLike\TestRogueLike.csproj", "{5B1CB87C-52B6-4742-BB17-32CE9B135F3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -50,6 +50,7 @@
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
+    <Compile Include="PhysicsObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\BaseScreen.cs" />
