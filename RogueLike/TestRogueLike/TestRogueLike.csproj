@@ -44,6 +44,7 @@
     <Compile Include="Extensions\TestExtensionFunctions.cs" />
     <Compile Include="GameObjects\TransformTest.cs" />
     <Compile Include="Managers\TestObjectManager.cs" />
+    <Compile Include="Managers\TestScreenManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TestPhysics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

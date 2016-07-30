@@ -1,4 +1,5 @@
 ﻿using RogueLike.CoreObjects;
+using RogueLike.Screens;
 
 namespace TestRogueLike.MockClasses
 {
@@ -15,4 +16,9 @@ namespace TestRogueLike.MockClasses
     /// A class used to test templated functions which allow returning of an inherited classes derived from Component
     /// </summary>
     public class MockInheritedComponent : MockComponent { }
+
+    /// <summary>
+    /// A class used to test the abstract base screen class
+    /// </summary>
+    public class MockBaseScreen : BaseScreen { }
 }

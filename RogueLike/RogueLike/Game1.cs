@@ -40,6 +40,7 @@ namespace RogueLike
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ScreenManager.Instance.Initialise();
 
             base.Initialize();
         }
@@ -55,6 +56,7 @@ namespace RogueLike
 
             DebugUtils.AssertNotNull(Content);
             ScreenManager.Instance.Setup(this, spriteBatch, graphics);
+            ScreenManager.Instance.LoadContent();
         }
 
         /// <summary>
@@ -75,6 +77,8 @@ namespace RogueLike
         {
             // TODO: Add your update logic here
             base.Update(gameTime);
+
+            ScreenManager.Instance.Update(gameTime.ElapsedGameTime.Milliseconds * 0.001f);
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace RogueLike
 
             spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+            ScreenManager.Instance.Draw(spriteBatch);
 
             spriteBatch.End();
 

@@ -116,6 +116,12 @@ namespace RogueLike.CoreObjects
         /// </summary>
         public bool UsesCollider { get; set; }
 
+        /// <summary>
+        /// A reference to a parent object which we will use for anchoring and positioning our object using the Anchor & Depth properties.
+        /// Also useful for navigating a hierarchy at runtime to obtain information about another object (providing the hierarchy is known).
+        /// </summary>
+        public BaseObject Parent { get; private set; }
+
         #endregion
 
         public BaseObject(Vector2 localPosition, string textureAsset) :
@@ -201,39 +207,40 @@ namespace RogueLike.CoreObjects
             }
 
             // Check to see whether we have a non-trivial case for our positioning
-            // If we have anchoring set up, we had better have a parent transform set too
-            Debug.Fail("TODO");
-            //DebugUtils.AssertNotNull(Transform.Parent);
-            //if (Anchor != Anchor.kCentre || Depth != 0)
-            //{
-            //    if (Anchor.HasFlag(Anchor.kCentre))
-            //    {
-            //        if (Anchor.HasFlag(Anchor.kLeft) || Anchor.HasFlag(Anchor.kRight))
-            //        {
-            //            float xMultiplier = Anchor.HasFlag(Anchor.kLeft) ? -1 : 1;
-            //            LocalPosition = new Vector2(0.5f * xMultiplier * (Parent.Size.X + Depth * Size.X), 0);
-            //        }
-            //        else
-            //        {
-            //            float yMultiplier = Anchor.HasFlag(Anchor.kTop) ? -1 : 1;
-            //            LocalPosition = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.X + Depth * Size.Y));
-            //        }
-            //    }
-            //    else
-            //    {
-            //        float yMultiplier = Anchor.HasFlag(Anchor.kTop) ? -1 : 1;
-            //        LocalPosition = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.Y + Depth * Size.Y));
+            // If we have anchoring set up, we had better have a parent set too
+            // The parent of our transform must also be our parent's transform too, otherwise we will be setting an incorrect local offset
+            DebugUtils.AssertNotNull(Parent);
+            //Debug.Assert(Transform.Parent == Parent.Transform);
+            if (Anchor != Anchor.kCentre || Depth != 0)
+            {
+                if (Anchor.HasFlag(Anchor.kCentre))
+                {
+                    if (Anchor.HasFlag(Anchor.kLeft) || Anchor.HasFlag(Anchor.kRight))
+                    {
+                        float xMultiplier = Anchor.HasFlag(Anchor.kLeft) ? -1 : 1;
+                        Transform.Position = new Vector2(0.5f * xMultiplier * (Parent.Size.X + Depth * Size.X), 0);
+                    }
+                    else
+                    {
+                        float yMultiplier = Anchor.HasFlag(Anchor.kTop) ? -1 : 1;
+                        Transform.Position = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.X + Depth * Size.Y));
+                    }
+                }
+                else
+                {
+                    float yMultiplier = Anchor.HasFlag(Anchor.kTop) ? -1 : 1;
+                    Transform.Position = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.Y + Depth * Size.Y));
 
-            //        if (Anchor.HasFlag(Anchor.kLeft))
-            //        {
-            //            LocalPosition -= new Vector2(0.5f * (Parent.Size.X + Depth * Size.X));
-            //        }
-            //        else if (Anchor.HasFlag(Anchor.kRight))
-            //        {
-            //            LocalPosition += new Vector2(0.5f * (Parent.Size.X + Depth * Size.Y));
-            //        }
-            //    }
-            //}
+                    if (Anchor.HasFlag(Anchor.kLeft))
+                    {
+                        Transform.Position -= new Vector2(0.5f * (Parent.Size.X + Depth * Size.X));
+                    }
+                    else if (Anchor.HasFlag(Anchor.kRight))
+                    {
+                        Transform.Position += new Vector2(0.5f * (Parent.Size.X + Depth * Size.Y));
+                    }
+                }
+            }
 
             base.Initialise();
         }

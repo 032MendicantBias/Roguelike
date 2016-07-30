@@ -2,7 +2,7 @@
 
 namespace RogueLike.Screens
 {
-    public class BaseScreen : Component
+    public abstract class BaseScreen : Component
     {
     }
 }
