@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RogueLine.Managers;
 
 namespace RogueLike
 {
@@ -11,7 +12,6 @@ namespace RogueLike
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D tex;
 
         public Game1()
         {
@@ -54,9 +54,7 @@ namespace RogueLike
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             DebugUtils.AssertNotNull(Content);
-            AssetManager.LoadAssets(Content);
-
-            tex = AssetManager.GetSprite("TestImage");
+            ScreenManager.Instance.Setup(this, spriteBatch, graphics);
         }
 
         /// <summary>

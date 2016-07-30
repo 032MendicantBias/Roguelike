@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CoreObjects\TestComponent.cs" />
     <Compile Include="Extensions\ExtensionFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TestPhysics.cs" />
