@@ -3,23 +3,23 @@ using System;
 
 namespace RogueLike.Physics
 {
-    class PhysicsObject
-    {  
-        private float width { get; set; }
-        private float height { get; set; }
-        private Vector2 position { get; set; }
+    public class PhysicsObject
+    {
+        private Rectangle rect;
 
-        private bool CollidedRectangle(Rectangle rect)
+        public PhysicsObject(Rectangle rect) { this.rect = rect; }
+
+        public bool CollidedRectangle(Rectangle rectIn)
         {
             bool inRangeVert = false;
             bool inRangeHori = false;
 
-            Vector2 positionDiff = Vector2.Subtract(this.position, rect.);
+            Vector2 positionDiff = Vector2.Subtract(rect.GetCentre(), rectIn.GetCentre());
 
-            if (Math.Abs(positionDiff.X) < this.width + rect.Width)
+            if (Math.Abs(positionDiff.X) < (rect.Width / 2) + (rectIn.Width / 2))
                 inRangeHori = true;
 
-            if (Math.Abs(positionDiff.Y) < this.height + rect.Height)
+            if (Math.Abs(positionDiff.Y) < (rect.Height / 2) + (rectIn.Height / 2))
                 inRangeVert = true;
 
             return (inRangeVert && inRangeHori);
