@@ -49,7 +49,10 @@
     <Compile Include="ObjectProperties\Transform.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
+<<<<<<< fcd2f7380621cfa422ab6e894067e7af837489f2
     <Compile Include="Managers\ScreenManager.cs" />
+=======
+>>>>>>> Physics changes
     <Compile Include="PhysicsObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
