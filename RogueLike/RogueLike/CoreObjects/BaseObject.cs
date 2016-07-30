@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using RogueLike.ObjectProperties;
 using System.Diagnostics;
 
 namespace RogueLike.CoreObjects
@@ -91,6 +89,17 @@ namespace RogueLike.CoreObjects
         public Color Colour { get; set; }
 
         /// <summary>
+        /// The transform of this object which holds information on it's local position and rotation in relation to a parent transform
+        /// </summary>
+        public Transform Transform { get; set; }
+
+        /// <summary>
+        /// The explicit size of the object in pixels (used for rendering).
+        /// By default set to the dimensions of the texture of this object if set (otherwise zero).
+        /// </summary>
+        public Vector2 Size { get; set; }
+
+        /// <summary>
         /// The opacity of the object - between 0 and 1.  A value of 0 makes the texture completely transparent, and 1 completely opaque
         /// </summary>
         public float Opacity { get; set; }
@@ -118,12 +127,14 @@ namespace RogueLike.CoreObjects
             Opacity = 1;
             UsesCollider = true;
             SpriteEffect = SpriteEffects.None;
+
+            Transform = new Transform(localPosition, 0, Vector2.Zero);
         }
 
         public BaseObject(Vector2 size, Vector2 localPosition, string textureAsset) :
             this(localPosition, textureAsset)
         {
-            // Implement size
+            Size = size;
         }
 
         public BaseObject(Anchor anchor, int depth, string textureAsset) :
@@ -135,12 +146,14 @@ namespace RogueLike.CoreObjects
             Opacity = 1;
             UsesCollider = true;
             SpriteEffect = SpriteEffects.None;
+
+            Transform = new Transform();
         }
 
         public BaseObject(Vector2 size, Anchor anchor, int depth, string textureAsset) :
             this(anchor, depth, textureAsset)
         {
-            // Implement size
+            Size = size;
         }
 
         #region Virtual Functions
@@ -153,6 +166,8 @@ namespace RogueLike.CoreObjects
             // Check to see whether we should load
             CheckShouldLoad();
 
+            // This assert is useful when debugging, because it checks whether our texture was set properly using lazy evaluation.
+            // This is not necessary in a release build, but do not remove - it will save your life
             DebugUtils.AssertNotNull(Texture);
 
             base.LoadContent();
@@ -179,13 +194,16 @@ namespace RogueLike.CoreObjects
                      (int)TextureDimensions.Y);
             }
 
-            //// If our size is zero (i.e. uninitialised) we use the texture's size (if it is not null)
-            //if (Size == Vector2.Zero && Texture != null)
-            //{
-            //    Size = new Vector2(Texture.Bounds.Width, Texture.Bounds.Height);
-            //}
+            // If our size is zero (i.e. uninitialised) we use the texture's size (if it is not null)
+            if (Size == Vector2.Zero && Texture != null)
+            {
+                Size = new Vector2(Texture.Bounds.Width, Texture.Bounds.Height);
+            }
 
-            //// Check to see whether we have a non-trivial case for our positioning
+            // Check to see whether we have a non-trivial case for our positioning
+            // If we have anchoring set up, we had better have a parent transform set too
+            Debug.Fail("TODO");
+            //DebugUtils.AssertNotNull(Transform.Parent);
             //if (Anchor != Anchor.kCentre || Depth != 0)
             //{
             //    if (Anchor.HasFlag(Anchor.kCentre))
@@ -232,6 +250,7 @@ namespace RogueLike.CoreObjects
             // If we are drawing this object, it should have a valid texture
             // If we wish to create an object but not draw it, simply change it's ShouldDraw property
             DebugUtils.AssertNotNull(Texture);
+            Debug.Fail("TODO");
             //spriteBatch.Draw(
             //    Texture,
             //    WorldPosition,
