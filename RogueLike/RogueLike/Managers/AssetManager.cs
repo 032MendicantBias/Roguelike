@@ -38,9 +38,10 @@ namespace RogueLike.Managers
             string spritesDirectoryPath = Path.Combine(content.RootDirectory, SpritesDirectory);
             Debug.Assert(Directory.Exists(spritesDirectoryPath));
 
-            for (FileInfo file in new DirectoryInfo(spritesDirectoryPath).GetFiles("*.xnb")
+            foreach (FileInfo file in new DirectoryInfo(spritesDirectoryPath).GetFiles("*.xnb", SearchOption.AllDirectories))
             {
-
+                string dictionaryKey = file.FullName;
+                dictionaryKey = dictionaryKey.Replace(spritesDirectoryPath, "");
             }
         }
     }
