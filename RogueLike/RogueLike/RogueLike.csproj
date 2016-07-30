@@ -40,9 +40,13 @@
   <ItemGroup>
     <Compile Include="CoreObjects\BaseObject.cs" />
     <Compile Include="CoreObjects\Component.cs" />
+    <Compile Include="Entities\Agent.cs" />
+    <Compile Include="Entities\GameObject.cs" />
+    <Compile Include="Entities\Weapon.cs" />
     <Compile Include="Extensions\ExtensionFunctions.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Interfaces\IContainer.cs" />
+    <Compile Include="ObjectProperties\Transform.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Program.cs" />
