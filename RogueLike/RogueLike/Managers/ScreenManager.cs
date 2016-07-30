@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using RogueLike.Managers;
 using RogueLike.Screens;
 using System.Diagnostics;
 
-namespace RogueLine.Managers
+namespace RogueLike.Managers
 {
     /// <summary>
     /// A singleton class which is responsible for managing the screens in game

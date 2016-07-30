@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RogueLine.Managers;
+using RogueLike.Managers;
 using TestRogueLike.MockClasses;
 
 namespace TestRogueLike.Managers
