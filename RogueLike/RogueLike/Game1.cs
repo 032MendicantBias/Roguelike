@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using RogueLike.Managers;
-using System.Diagnostics;
 
 namespace RogueLike
 {
@@ -13,11 +11,24 @@ namespace RogueLike
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D tex;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // Uncomment this to set the window to the same size as the current screen resolution
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 75; // -75 just to take into account the taskbar
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+            // If you have a crash for whatever reason in whilst you are debugging and you are in fullscreen, it is a pain in the ass
+            // Do not enable fullscreen whilst debugging unless you are CERTAIN you have a stable program
+#if !DEBUG
+            // Uncomment this to enable fullscreen
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.IsFullScreen = true;
+#endif
         }
 
         /// <summary>
@@ -42,8 +53,10 @@ namespace RogueLike
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Debug.Assert(Content != null);
-            AssetManager.LoadSprites(Content);
+            DebugUtils.AssertNotNull(Content);
+            AssetManager.LoadAssets(Content);
+
+            tex = AssetManager.GetSprite("TestImage");
         }
 
         /// <summary>
@@ -68,8 +81,6 @@ namespace RogueLike
             // TODO: Add your update logic here
 
             base.Update(gameTime);
-
-
         }
 
         /// <summary>
@@ -80,7 +91,11 @@ namespace RogueLike
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+
             // TODO: Add your drawing code here
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
