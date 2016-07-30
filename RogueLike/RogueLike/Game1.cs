@@ -40,6 +40,8 @@ namespace RogueLike
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Mouse.GetState().LeftButton == ButtonState.
+
             // TODO: use this.Content to load your game content here
         }
 
