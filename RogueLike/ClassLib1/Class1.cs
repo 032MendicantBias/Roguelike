@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TestRogueLike
+namespace ClassLib1
 {
     [TestClass]
     public class PhysicsObjectRectangleCollisionTest

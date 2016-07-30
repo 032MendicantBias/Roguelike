@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Xna.Framework;
 
 namespace TestRogueLike
 {
@@ -9,7 +10,7 @@ namespace TestRogueLike
         [TestMethod]
         public void TestOutOfRange()
         {
-            Rectangle rectA = new Rectangle(new Vector2(0f, 0f), 10, 10);
+            Rectangle rectA = new Rectangle(0, 10, 10, 10);
         }
     }
 }
