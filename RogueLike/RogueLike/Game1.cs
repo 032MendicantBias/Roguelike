@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using RogueLike.Managers;
 
 namespace RogueLike
@@ -40,7 +39,6 @@ namespace RogueLike
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            ScreenManager.Instance.Initialise();
 
             base.Initialize();
         }
@@ -57,6 +55,7 @@ namespace RogueLike
             DebugUtils.AssertNotNull(Content);
             ScreenManager.Instance.Setup(this, spriteBatch, graphics);
             ScreenManager.Instance.LoadContent();
+            ScreenManager.Instance.Initialise();
         }
 
         /// <summary>
@@ -78,7 +77,11 @@ namespace RogueLike
             // TODO: Add your update logic here
             base.Update(gameTime);
 
-            ScreenManager.Instance.Update(gameTime.ElapsedGameTime.Milliseconds * 0.001f);
+            float elapsedGameTime = gameTime.ElapsedGameTime.Milliseconds * 0.001f;
+
+            // Need to fill in the correct mouse position once we have the mouse
+            ScreenManager.Instance.HandleInput(elapsedGameTime, Vector2.Zero);
+            ScreenManager.Instance.Update(elapsedGameTime);
         }
 
         /// <summary>
