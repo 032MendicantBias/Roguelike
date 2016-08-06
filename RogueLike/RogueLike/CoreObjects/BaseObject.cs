@@ -71,7 +71,7 @@ namespace RogueLike.CoreObjects
         /// A source rectangle used to specify a sub section of the Texture2D to draw.
         /// Useful for animations and bars and by default set to (0, 0, texture width, texture height).
         /// </summary>
-        public Microsoft.Xna.Framework.Rectangle SourceRectangle { get; set; }
+        public Rectangle SourceRectangle { get; set; }
         
         /// <summary>
         /// The relative anchor to the parent.
@@ -204,7 +204,7 @@ namespace RogueLike.CoreObjects
                 TextureCentre = new Vector2(Texture.Bounds.Center.X, Texture.Bounds.Center.Y);
 
                 // Set the source rectangle to the default size of the texture
-                SourceRectangle = new Microsoft.Xna.Framework.Rectangle(
+                SourceRectangle = new Rectangle(
                      0, 0,
                      (int)TextureDimensions.X,
                      (int)TextureDimensions.Y);
@@ -265,7 +265,7 @@ namespace RogueLike.CoreObjects
 
             if (UsesCollider)
             {
-                Collider = new Physics.RectangleCollider(Transform.Position, Size);
+                Collider = new RectangleCollider(Transform.Position, Size);
             }
         }
 
