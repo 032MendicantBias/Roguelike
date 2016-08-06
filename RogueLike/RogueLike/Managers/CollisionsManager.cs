@@ -1,4 +1,5 @@
 ﻿using RogueLike.Physics;
+using System.Diagnostics;
 
 namespace RogueLike.Managers
 {
@@ -6,27 +7,17 @@ namespace RogueLike.Managers
     {
         public static bool CheckCollision(ICollidableShape s1, ICollidableShape s2)
         {
-            if(s1 is Rectangle)
+            if (s2 is Rectangle)
             {
-                if(s2 is Rectangle)
-                {
-                    return CheckCollision(s1 as Rectangle, s2 as Rectangle);
-                }
-                else if(s2 is Circle)
-                {
-                    return CheckCollision(s1 as Rectangle, s2 as Circle);
-                }
+                return s1.CollidedWithRectangle(s2 as Rectangle);
             }
-            else if(s1 is Circle)
+            else if (s2 is Circle)
             {
-                if (s2 is Rectangle)
-                {
-                    return CheckCollision(s1 as Circle, s2 as Rectangle);
-                }
-                else if(s2 is Circle)
-                {
-                    return CheckCollision(s1 as Circle, s2 as Circle);
-                }
+                return s1.CollidedWithCircle(s2 as Circle);
+            }
+            else
+            {
+                Debug.Fail("Unhandled collider type");
             }
 
             return false;

@@ -22,7 +22,16 @@ namespace RogueLike.Screens
         {
             base.Update(elapsedGameTime);
 
-            CollisionsManager.CheckCollision(temp1.Collider, temp2.Collider);
+            if (CollisionsManager.CheckCollision(temp1.Collider, temp2.Collider))
+            {
+                temp1.Colour = Color.Red;
+                temp2.Colour = Color.Red;
+            }
+            else
+            {
+                temp1.Colour = Color.White;
+                temp2.Colour = Color.White;
+            }
         }
     }
 }
