@@ -71,7 +71,7 @@ namespace RogueLike.CoreObjects
         /// A source rectangle used to specify a sub section of the Texture2D to draw.
         /// Useful for animations and bars and by default set to (0, 0, texture width, texture height).
         /// </summary>
-        public Rectangle SourceRectangle { get; set; }
+        public Microsoft.Xna.Framework.Rectangle SourceRectangle { get; set; }
         
         /// <summary>
         /// The relative anchor to the parent.
@@ -119,10 +119,10 @@ namespace RogueLike.CoreObjects
         public bool UsesCollider { get; set; }
 
         /// <summary>
-        /// The physics object responsible for storing information and methods for collision detection.
+        /// The collision shape responsible for storing information and methods for collision detection.
         /// Will only be created if the UsesCollider flag is set to true.
         /// </summary>
-        public PhysicsObject PhysicsObject { get; set; }
+        public ICollidableShape Collider { get; set; }
 
         /// <summary>
         /// A reference to a parent object which we will use for anchoring and positioning our object using the Anchor & Depth properties.
@@ -204,7 +204,7 @@ namespace RogueLike.CoreObjects
                 TextureCentre = new Vector2(Texture.Bounds.Center.X, Texture.Bounds.Center.Y);
 
                 // Set the source rectangle to the default size of the texture
-                SourceRectangle = new Rectangle(
+                SourceRectangle = new Microsoft.Xna.Framework.Rectangle(
                      0, 0,
                      (int)TextureDimensions.X,
                      (int)TextureDimensions.Y);
@@ -265,11 +265,7 @@ namespace RogueLike.CoreObjects
 
             if (UsesCollider)
             {
-                PhysicsObject = new PhysicsObject(
-                    new Rectangle((int)(Transform.Position.X - Size.X * 0.5f),
-                                  (int)(Transform.Position.Y - Size.Y * 0.5f),
-                                  (int)Size.X,
-                                  (int)Size.Y));
+                Collider = new Physics.Rectangle(Transform.Position, Size);
             }
         }
 

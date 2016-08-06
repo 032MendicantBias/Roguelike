@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using RogueLike.CoreObjects;
+using RogueLike.Managers;
 
 namespace RogueLike.Screens
 {
@@ -8,11 +9,20 @@ namespace RogueLike.Screens
     /// </summary>
     public class TempScreen : BaseScreen
     {
+        private TempObject temp1, temp2;
+
         public TempScreen()
         {
-            AddScreenObject(new TempObject(new Vector2(500, 500)));
-            TempObject temp = AddScreenObject(new TempObject(new Vector2(400, 600)));
-            temp.ShouldHandleInput = false;
+            temp1 = AddScreenObject(new TempObject(new Vector2(500, 500)));
+            temp2 = AddScreenObject(new TempObject(new Vector2(400, 600)));
+            temp2.ShouldHandleInput = false;
+        }
+
+        public override void Update(float elapsedGameTime)
+        {
+            base.Update(elapsedGameTime);
+
+            CollisionsManager.CheckCollision(temp1.Collider, temp2.Collider);
         }
     }
 }
