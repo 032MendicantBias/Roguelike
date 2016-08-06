@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using RogueLike.Managers;
 using RogueLike.Screens;
 using System.Diagnostics;
 
-namespace RogueLine.Managers
+namespace RogueLike.Managers
 {
     /// <summary>
     /// A singleton class which is responsible for managing the screens in game
@@ -120,7 +119,25 @@ namespace RogueLine.Managers
             // Set our game to update on a fixed time step
             Game.IsFixedTimeStep = true;
         }
-        
+
+        /// <summary>
+        /// Remove one screen and add another.
+        /// </summary>
+        /// <param name="transitionFrom">The screen to remove</param>
+        /// <param name="transitionTo">The screen to add</param>
+        /// <param name="load">Whether we should call LoadContent on the screen to add</param>
+        /// <param name="initialise">Whether we should call Initialise on the screen to add</param>
+        /// <returns>The screen we are adding next</returns>
+        public BaseScreen Transition(BaseScreen transitionFrom, BaseScreen transitionTo, bool load = true, bool initialise = true)
+        {
+            BaseScreen newScreen = AddChild(transitionTo, load, initialise);
+
+            transitionFrom.Die();
+            transitionFrom.ShouldDraw = true;     // Bit of a hack so that we get a continuous draw until the new screen takes over
+
+            return newScreen;
+        }
+
         /// <summary>
         /// A wrapper for returning the current screen as the inputted type.
         /// Performs Debug validity checking.
