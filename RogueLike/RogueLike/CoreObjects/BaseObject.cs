@@ -270,6 +270,21 @@ namespace RogueLike.CoreObjects
         }
 
         /// <summary>
+        /// Update the position of our collider using this object's transform
+        /// </summary>
+        /// <param name="elapsedGameTime"></param>
+        public override void Update(float elapsedGameTime)
+        {
+            base.Update(elapsedGameTime);
+
+            if (UsesCollider)
+            {
+                DebugUtils.AssertNotNull(Collider);
+                Collider.Position = Transform.Position;
+            }
+        }
+
+        /// <summary>
         /// Draws the object's texture.
         /// If we wish to create an object, but not draw it, change it's ShouldDraw property to false.
         /// </summary>
