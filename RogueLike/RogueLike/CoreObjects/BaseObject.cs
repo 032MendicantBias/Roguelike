@@ -265,7 +265,7 @@ namespace RogueLike.CoreObjects
 
             if (UsesCollider)
             {
-                Collider = new Physics.Rectangle(Transform.Position, Size);
+                Collider = new Physics.RectangleCollider(Transform.Position, Size);
             }
         }
 

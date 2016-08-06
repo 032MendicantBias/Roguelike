@@ -3,27 +3,27 @@ using System;
 
 namespace RogueLike.Physics
 {
-    public class Rectangle : ICollidableShape
+    public class RectangleCollider : ICollidableShape
     {
         public Vector2 Position { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
 
-        public Rectangle(float x, float y, float width, float height)
+        public RectangleCollider(float x, float y, float width, float height)
         {
             Position = new Vector2(x, y);
             Width = width;
             Height = height;
         }
 
-        public Rectangle(Vector2 pos, float width, float height)
+        public RectangleCollider(Vector2 pos, float width, float height)
         {
             Position = pos;
             Width = width;
             Height = height;
         }
         
-        public Rectangle(Vector2 pos, Vector2 size)
+        public RectangleCollider(Vector2 pos, Vector2 size)
         {
             Position = pos;
             Width = size.X;
@@ -67,7 +67,7 @@ namespace RogueLike.Physics
             return new Vector2(Position.X + (Width / 2), Position.Y + (Height / 2));
         }
 
-        public bool CollidedWithRectangle(Rectangle rect)
+        public bool CollidedWithRectangle(RectangleCollider rect)
         {
             bool inRangeVert = false;
             bool inRangeHori = false;
@@ -87,7 +87,7 @@ namespace RogueLike.Physics
             return (inRangeVert && inRangeHori);
         }
 
-        public bool CollidedWithCircle(Circle circ)
+        public bool CollidedWithCircle(CircleCollider circ)
         {
             Vector2 positionDiff = Vector2.Subtract(this.GetCentre(), circ.Position);
             positionDiff.X = Math.Abs(positionDiff.X);

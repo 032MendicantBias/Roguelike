@@ -3,24 +3,24 @@ using System;
 
 namespace RogueLike.Physics
 {
-    public class Circle : ICollidableShape
+    public class CircleCollider : ICollidableShape
     {
         public Vector2 Position { get; set; }
         public float Radius { get; set; }
 
-        public Circle(Vector2 pos, float radius)
+        public CircleCollider(Vector2 pos, float radius)
         {
             Position = pos;
             Radius = radius;
         }
 
-        public Circle(float x, float y, float radius)
+        public CircleCollider(float x, float y, float radius)
         {
             Position = new Vector2(x, y);
             Radius = radius;
         }
 
-        public bool CollidedWithRectangle(Rectangle rect)
+        public bool CollidedWithRectangle(RectangleCollider rect)
         {
             Vector2 positionDiff = Vector2.Subtract(rect.GetCentre(), this.Position);
             positionDiff.X = Math.Abs(positionDiff.X);
@@ -38,7 +38,7 @@ namespace RogueLike.Physics
             return cornerDistSquared <= (float)Math.Pow(this.Radius, 2);
         }
 
-        public bool CollidedWithCircle(Circle circ)
+        public bool CollidedWithCircle(CircleCollider circ)
         {
             Vector2 positionDiff = Vector2.Subtract(this.Position, circ.Position);
             return positionDiff.Length() <= (this.Radius + circ.Radius);

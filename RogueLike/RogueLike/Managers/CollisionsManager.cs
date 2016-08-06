@@ -7,13 +7,13 @@ namespace RogueLike.Managers
     {
         public static bool CheckCollision(ICollidableShape s1, ICollidableShape s2)
         {
-            if (s2 is Rectangle)
+            if (s2 is RectangleCollider)
             {
-                return s1.CollidedWithRectangle(s2 as Rectangle);
+                return s1.CollidedWithRectangle(s2 as RectangleCollider);
             }
-            else if (s2 is Circle)
+            else if (s2 is CircleCollider)
             {
-                return s1.CollidedWithCircle(s2 as Circle);
+                return s1.CollidedWithCircle(s2 as CircleCollider);
             }
             else
             {
@@ -23,22 +23,22 @@ namespace RogueLike.Managers
             return false;
         }
         
-        public static bool CheckCollision(Rectangle rect, Rectangle rect2)
+        public static bool CheckCollision(RectangleCollider rect, RectangleCollider rect2)
         {
             return rect.CollidedWithRectangle(rect2);
         }
         
-        public static bool CheckCollision(Rectangle rect, Circle circ)
+        public static bool CheckCollision(RectangleCollider rect, CircleCollider circ)
         {
             return rect.CollidedWithCircle(circ);
         }
 
-        public static bool CheckCollision(Circle circ, Rectangle rect)
+        public static bool CheckCollision(CircleCollider circ, RectangleCollider rect)
         {
             return circ.CollidedWithRectangle(rect);
         }
 
-        public static bool CheckCollision(Circle circ, Circle circ2)
+        public static bool CheckCollision(CircleCollider circ, CircleCollider circ2)
         {
             return circ.CollidedWithCircle(circ2);
         }

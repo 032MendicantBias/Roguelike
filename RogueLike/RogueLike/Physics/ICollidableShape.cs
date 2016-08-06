@@ -6,7 +6,7 @@ namespace RogueLike.Physics
     {
         Vector2 Position { get; set; }
 
-        bool CollidedWithRectangle(Rectangle rect);
-        bool CollidedWithCircle(Circle circ);
+        bool CollidedWithRectangle(RectangleCollider rect);
+        bool CollidedWithCircle(CircleCollider circ);
     }
 }
