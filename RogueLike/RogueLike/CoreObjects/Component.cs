@@ -45,12 +45,12 @@ namespace RogueLike.CoreObjects
         /// <summary>
         /// A bool used to indicate whether we should call HandleInput on this object
         /// </summary>
-        public bool ShouldHandleInput { get; private set; }
+        public bool ShouldHandleInput { get; set; }
 
         /// <summary>
         /// A bool used to indicate whether we should call Update on this object
         /// </summary>
-        public bool ShouldUpdate { get; private set; }
+        public bool ShouldUpdate { get; set; }
 
         /// <summary>
         /// A bool used to indicate whether we should call Draw on this object

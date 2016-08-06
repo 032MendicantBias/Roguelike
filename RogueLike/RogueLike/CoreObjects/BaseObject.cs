@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueLike.ObjectProperties;
+using RogueLike.Physics;
 using System.Diagnostics;
 
 namespace RogueLike.CoreObjects
@@ -113,8 +114,15 @@ namespace RogueLike.CoreObjects
         /// <summary>
         /// A bool to indicate whether we should add a collider during initialisation.
         /// Some objects (like text) do not need a collider - this is an optimisation step.
+        /// By default it is true.
         /// </summary>
         public bool UsesCollider { get; set; }
+
+        /// <summary>
+        /// The physics object responsible for storing information and methods for collision detection.
+        /// Will only be created if the UsesCollider flag is set to true.
+        /// </summary>
+        public PhysicsObject PhysicsObject { get; set; }
 
         /// <summary>
         /// A reference to a parent object which we will use for anchoring and positioning our object using the Anchor & Depth properties.
@@ -133,6 +141,7 @@ namespace RogueLike.CoreObjects
             Opacity = 1;
             UsesCollider = true;
             SpriteEffect = SpriteEffects.None;
+            Colour = Color.White;
 
             Transform = new Transform(localPosition, 0, Vector2.Zero);
         }
@@ -152,6 +161,7 @@ namespace RogueLike.CoreObjects
             Opacity = 1;
             UsesCollider = true;
             SpriteEffect = SpriteEffects.None;
+            Colour = Color.White;
 
             Transform = new Transform();
         }
@@ -209,10 +219,11 @@ namespace RogueLike.CoreObjects
             // Check to see whether we have a non-trivial case for our positioning
             // If we have anchoring set up, we had better have a parent set too
             // The parent of our transform must also be our parent's transform too, otherwise we will be setting an incorrect local offset
-            DebugUtils.AssertNotNull(Parent);
-            //Debug.Assert(Transform.Parent == Parent.Transform);
             if (Anchor != Anchor.kCentre || Depth != 0)
             {
+                DebugUtils.AssertNotNull(Parent);
+                //Debug.Assert(Transform.Parent == Parent.Transform);
+
                 if (Anchor.HasFlag(Anchor.kCentre))
                 {
                     if (Anchor.HasFlag(Anchor.kLeft) || Anchor.HasFlag(Anchor.kRight))
@@ -246,6 +257,23 @@ namespace RogueLike.CoreObjects
         }
 
         /// <summary>
+        /// If this object has specified to use a collider then we create it here.
+        /// </summary>
+        public override void Begin()
+        {
+            base.Begin();
+
+            if (UsesCollider)
+            {
+                PhysicsObject = new PhysicsObject(
+                    new Rectangle((int)(Transform.Position.X - Size.X * 0.5f),
+                                  (int)(Transform.Position.Y - Size.Y * 0.5f),
+                                  (int)Size.X,
+                                  (int)Size.Y));
+            }
+        }
+
+        /// <summary>
         /// Draws the object's texture.
         /// If we wish to create an object, but not draw it, change it's ShouldDraw property to false.
         /// </summary>
@@ -257,18 +285,17 @@ namespace RogueLike.CoreObjects
             // If we are drawing this object, it should have a valid texture
             // If we wish to create an object but not draw it, simply change it's ShouldDraw property
             DebugUtils.AssertNotNull(Texture);
-            Debug.Fail("TODO");
-            //spriteBatch.Draw(
-            //    Texture,
-            //    WorldPosition,
-            //    null,
-            //    SourceRectangle,
-            //    TextureCentre,
-            //    WorldRotation,
-            //    Vector2.Divide(Size, TextureDimensions),
-            //    Colour * Opacity,
-            //    SpriteEffect,
-            //    0);
+            spriteBatch.Draw(
+                Texture,
+                Transform.Position,
+                null,
+                SourceRectangle,
+                TextureCentre,
+                Transform.Rotation,
+                Vector2.Divide(Size, TextureDimensions),
+                Colour * Opacity,
+                SpriteEffect,
+                0);
         }
         
         #endregion

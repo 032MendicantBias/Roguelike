@@ -18,8 +18,8 @@ namespace RogueLike.ObjectProperties
             Scale = scale;
         }
 
-        public Transform(Transform parentTransform) : this(parentTransform, new Vector2(), 0.0f, new Vector2()) {}
+        public Transform(Transform parentTransform) : this(parentTransform, Vector2.Zero, 0.0f, Vector2.Zero) {}
 
-        public Transform() : this(new Vector2(), 0.0f, new Vector2()) {}
+        public Transform() : this(Vector2.Zero, 0.0f, Vector2.Zero) {}
     }
 }

@@ -8,6 +8,5 @@ namespace RogueLike
         {
             return rect.Center.ToVector2();
         }
-
     }
 }

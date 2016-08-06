@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="CoreObjects\BaseObject.cs" />
     <Compile Include="CoreObjects\Component.cs" />
+    <Compile Include="CoreObjects\TempObject.cs" />
     <Compile Include="Entities\Agent.cs" />
     <Compile Include="Entities\GameObject.cs" />
     <Compile Include="Entities\Weapon.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\BaseScreen.cs" />
+    <Compile Include="Screens\TempScreen.cs" />
     <Compile Include="Utils\DebugUtils.cs" />
   </ItemGroup>
   <ItemGroup>

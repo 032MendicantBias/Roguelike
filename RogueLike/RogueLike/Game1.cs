@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueLike.Managers;
+using RogueLike.Screens;
 
 namespace RogueLike
 {
@@ -56,6 +57,8 @@ namespace RogueLike
             ScreenManager.Instance.Setup(this, spriteBatch, graphics);
             ScreenManager.Instance.LoadContent();
             ScreenManager.Instance.Initialise();
+
+            ScreenManager.Instance.AddChild(new TempScreen(), true, true);
         }
 
         /// <summary>

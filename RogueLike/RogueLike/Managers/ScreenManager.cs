@@ -118,6 +118,9 @@ namespace RogueLike.Managers
 
             // Set our game to update on a fixed time step
             Game.IsFixedTimeStep = true;
+
+            // I don't think this should stay here, but I'm putting it here as a hacky fix right now
+            AssetManager.LoadAssets(Content);
         }
 
         /// <summary>

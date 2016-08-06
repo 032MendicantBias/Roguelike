@@ -122,5 +122,14 @@ namespace RogueLike.Screens
         }
 
         #endregion
+
+        #region Object Management Functions
+
+        protected T AddScreenObject<T>(T objectToAdd, bool load = false, bool initialise = false) where T : BaseObject
+        {
+            return ScreenObjects.AddChild(objectToAdd, load, initialise);
+        }
+
+        #endregion
     }
 }
