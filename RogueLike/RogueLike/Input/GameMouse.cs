@@ -4,7 +4,6 @@ using RogueLike.CoreObjects;
 
 namespace RogueLike.Input
 {
-
     /// <summary>
     /// An enum for the mouse buttons
     /// </summary>
@@ -14,7 +13,6 @@ namespace RogueLike.Input
         kMiddleButton,
         kRightButton,
     }
-
 
     /// <summary>
     /// The class representing the cursor in our game.
