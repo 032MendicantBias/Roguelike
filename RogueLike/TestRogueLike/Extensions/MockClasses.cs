@@ -1,4 +1,5 @@
-﻿using RogueLike.CoreObjects;
+﻿using Microsoft.Xna.Framework.Input;
+using RogueLike.CoreObjects;
 using RogueLike.Screens;
 
 namespace TestRogueLike.MockClasses
