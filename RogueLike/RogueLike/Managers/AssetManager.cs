@@ -25,6 +25,8 @@ namespace RogueLike
         #region Default Assets
 
         public const string MouseTextureAsset = "UI\\Cursor";
+        public const string DefaultButtonTextureAsset = "UI\\Button";
+        public const string DefaultHighlightedButtonTextureAsset = "UI\\HighlightedButton";
         
         #endregion
 
