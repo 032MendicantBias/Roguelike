@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using RogueLike.Input;
 using RogueLike.Screens;
 using System.Diagnostics;
 
@@ -92,6 +94,45 @@ namespace RogueLike.Managers
         {
         }
 
+        #region Virtual Functions
+
+        /// <summary>
+        /// Call HandleInput and Update on the mouse before anything else so that the other objects in the game have the most up to date information.
+        /// Obtains information about the current Keyboard state.
+        /// </summary>
+        /// <param name="elapsedGameTime"></param>
+        /// <param name="mousePosition"></param>
+        public override void HandleInput(float elapsedGameTime, Vector2 ignoreThis)
+        {
+            // Handle the mouse input and update it first before we do anything for the other objects in our game, so they have the most up to date information
+            GameMouse.Instance.HandleInput(elapsedGameTime, Vector2.Zero);
+            GameMouse.Instance.Update(elapsedGameTime);     // This will also call GameMouse.Instance.Begin() before our ScreenManager's Begin function.
+
+            base.HandleInput(elapsedGameTime, GameMouse.Instance.Transform.Position);
+
+            // Update the state of the keyboard for this frame so we can work out what keys have been pressed
+            GameKeyboard.HandleInput();
+
+            // TODO REMOVE THIS AT A LATER STAGE, THIS IS JUST FOR UTILITY RIGHT NOW
+            if (GameKeyboard.IsKeyPressed(Keys.Escape))
+            {
+                Game.Exit();
+            }
+        }
+
+        /// <summary>
+        /// Draw our screens and then the mouse on top.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            GameMouse.Instance.Draw(spriteBatch);
+        }
+
+        #endregion
+
         #region Utility Functions
 
         /// <summary>
@@ -121,6 +162,10 @@ namespace RogueLike.Managers
 
             // I don't think this should stay here, but I'm putting it here as a hacky fix right now
             AssetManager.LoadAssets(Content);
+
+            // Set up the game mouse
+            GameMouse.Instance.LoadContent();
+            GameMouse.Instance.Initialise();
         }
 
         /// <summary>

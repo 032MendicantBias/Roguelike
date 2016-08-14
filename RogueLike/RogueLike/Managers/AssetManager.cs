@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Xml;
 
 namespace RogueLike
 {
@@ -25,6 +23,8 @@ namespace RogueLike
         #endregion
 
         #region Default Assets
+
+        public const string MouseTextureAsset = "UI\\Cursor";
         
         #endregion
 
