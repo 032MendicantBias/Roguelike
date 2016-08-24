@@ -5,6 +5,8 @@ namespace RogueLike.Physics.Collisions
     public interface ICollidableShape
     {
         Vector2 Position { get; set; }
+        int Height { get; set; }
+        int Width { get; set; }
 
         bool CollidedWithRectangle(Rektangle rect);
         bool CollidedWithCircle(Circle circ);
