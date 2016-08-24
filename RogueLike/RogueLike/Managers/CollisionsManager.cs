@@ -1,4 +1,4 @@
-﻿using RogueLike.Physics;
+﻿using RogueLike.Physics.Collisions;
 using System.Diagnostics;
 
 namespace RogueLike.Managers
@@ -7,9 +7,9 @@ namespace RogueLike.Managers
     {
         public static bool CheckCollision(ICollidableShape s1, ICollidableShape s2)
         {
-            if (s2 is Rectangle)
+            if (s2 is Rektangle)
             {
-                return s1.CollidedWithRectangle(s2 as Rectangle);
+                return s1.CollidedWithRectangle(s2 as Rektangle);
             }
             else if (s2 is Circle)
             {
@@ -23,17 +23,17 @@ namespace RogueLike.Managers
             return false;
         }
         
-        public static bool CheckCollision(Rectangle rect, Rectangle rect2)
+        public static bool CheckCollision(Rektangle rect, Rektangle rect2)
         {
             return rect.CollidedWithRectangle(rect2);
         }
         
-        public static bool CheckCollision(Rectangle rect, Circle circ)
+        public static bool CheckCollision(Rektangle rect, Circle circ)
         {
             return rect.CollidedWithCircle(circ);
         }
 
-        public static bool CheckCollision(Circle circ, Rectangle rect)
+        public static bool CheckCollision(Circle circ, Rektangle rect)
         {
             return circ.CollidedWithRectangle(rect);
         }

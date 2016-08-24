@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace RogueLike.Physics
+namespace RogueLike.Physics.Collisions
 {
     public class Circle : ICollidableShape
     {
@@ -20,7 +20,7 @@ namespace RogueLike.Physics
             Radius = radius;
         }
 
-        public bool CollidedWithRectangle(Rectangle rect)
+        public bool CollidedWithRectangle(Rektangle rect)
         {
             Vector2 positionDiff = Vector2.Subtract(rect.GetCentre(), this.Position);
             positionDiff.X = Math.Abs(positionDiff.X);

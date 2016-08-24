@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueLike.ObjectProperties;
-using RogueLike.Physics;
+using RogueLike.Physics.Collisions;
 using System.Diagnostics;
 
 namespace RogueLike.CoreObjects
@@ -265,7 +265,7 @@ namespace RogueLike.CoreObjects
 
             if (UsesCollider)
             {
-                Collider = new Physics.Rectangle(Transform.Position, Size);
+                Collider = new Physics.Collisions.Rektangle(Transform.Position, Size);
             }
         }
 

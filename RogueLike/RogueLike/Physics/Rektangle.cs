@@ -1,29 +1,30 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using System;
 
-namespace RogueLike.Physics
+namespace RogueLike.Physics.Collisions
 {
-    public class Rectangle : ICollidableShape
+    public class Rektangle : ICollidableShape
     {
         public Vector2 Position { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
 
-        public Rectangle(float x, float y, float width, float height)
+        public Rektangle(float x, float y, float width, float height)
         {
             Position = new Vector2(x, y);
             Width = width;
             Height = height;
         }
 
-        public Rectangle(Vector2 pos, float width, float height)
+        public Rektangle(Vector2 pos, float width, float height)
         {
             Position = pos;
             Width = width;
             Height = height;
         }
         
-        public Rectangle(Vector2 pos, Vector2 size)
+        public Rektangle(Vector2 pos, Vector2 size)
         {
             Position = pos;
             Width = size.X;
@@ -67,7 +68,7 @@ namespace RogueLike.Physics
             return new Vector2(Position.X + (Width / 2), Position.Y + (Height / 2));
         }
 
-        public bool CollidedWithRectangle(Rectangle rect)
+        public bool CollidedWithRectangle(Rektangle rect)
         {
             bool inRangeVert = false;
             bool inRangeHori = false;
