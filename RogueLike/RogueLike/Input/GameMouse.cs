@@ -85,7 +85,8 @@ namespace RogueLike.Input
         private GameMouse() :
             base(Vector2.Zero, AssetManager.MouseTextureAsset)
         {
-
+            // No collider for the mouse
+            UsesCollider = false;
         }
 
         #region Virtual Functions

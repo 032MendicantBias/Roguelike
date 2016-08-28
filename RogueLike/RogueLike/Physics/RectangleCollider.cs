@@ -5,30 +5,10 @@ namespace RogueLike.Physics
 {
     public class RectangleCollider : ICollidableShape
     {
-        public Vector2 Position { get; set; }
+        #region Properties and Fields
+
         public float Width { get; set; }
         public float Height { get; set; }
-
-        public RectangleCollider(float x, float y, float width, float height)
-        {
-            Position = new Vector2(x, y);
-            Width = width;
-            Height = height;
-        }
-
-        public RectangleCollider(Vector2 pos, float width, float height)
-        {
-            Position = pos;
-            Width = width;
-            Height = height;
-        }
-        
-        public RectangleCollider(Vector2 pos, Vector2 size)
-        {
-            Position = pos;
-            Width = size.X;
-            Height = size.Y;
-        }
 
         public Vector2 Left
         {
@@ -62,12 +42,37 @@ namespace RogueLike.Physics
             }
         }
 
+        #endregion
+
+        public RectangleCollider(float x, float y, float width, float height)
+        {
+            Position = new Vector2(x, y);
+            Width = width;
+            Height = height;
+        }
+
+        public RectangleCollider(Vector2 pos, float width, float height)
+        {
+            Position = pos;
+            Width = width;
+            Height = height;
+        }
+        
+        public RectangleCollider(Vector2 pos, Vector2 size)
+        {
+            Position = pos;
+            Width = size.X;
+            Height = size.Y;
+        }
+
         public Vector2 GetCentre()
         {
             return new Vector2(Position.X + (Width / 2), Position.Y + (Height / 2));
         }
 
-        public bool CollidedWithRectangle(RectangleCollider rect)
+        #region Collision Functions
+
+        public override bool CollidedWithRectangle(RectangleCollider rect)
         {
             bool inRangeVert = false;
             bool inRangeHori = false;
@@ -87,7 +92,7 @@ namespace RogueLike.Physics
             return (inRangeVert && inRangeHori);
         }
 
-        public bool CollidedWithCircle(CircleCollider circ)
+        public override bool CollidedWithCircle(CircleCollider circ)
         {
             Vector2 positionDiff = Vector2.Subtract(this.GetCentre(), circ.Position);
             positionDiff.X = Math.Abs(positionDiff.X);
@@ -104,5 +109,13 @@ namespace RogueLike.Physics
 
             return cornerDistSquared <= (float) Math.Pow(circ.Radius, 2);
         }
+
+        public override bool CollidedWithPoint(Vector2 point)
+        {
+            return Math.Abs(point.X - Position.X) <= Width * 0.5f &&
+                   Math.Abs(point.Y - Position.Y) <= Height * 0.5f;
+        }
+
+        #endregion
     }
 }

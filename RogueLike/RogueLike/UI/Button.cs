@@ -74,14 +74,15 @@ namespace RogueLike.UI
         {
             base.HandleInput(elapsedGameTime, mousePosition);
 
-            if (/*mouse over button*/ false)
+            if (Collider.IsMouseOver)
             {
                 // If the mouse is over the button, change the texture to the highlighted texture
                 Texture = HighlightedTexture;
 
-                if (/*clicked*/false)
+                if (Collider.IsClicked)
                 {
                     // If we have been clicked, fire the event
+                    DebugUtils.AssertNotNull(OnClick, "This button has no click events subscribed to it, so nothing will happen when clicked");
                     OnClick?.Invoke(this);
                 }
             }

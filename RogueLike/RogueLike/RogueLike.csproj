@@ -54,12 +54,14 @@
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
-    <Compile Include="Physics\Circle.cs" />
+    <Compile Include="Physics\CircleCollider.cs" />
     <Compile Include="Physics\ICollidableShape.cs" />
-    <Compile Include="Physics\Rectangle.cs" />
+    <Compile Include="Physics\RectangleCollider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\BaseScreen.cs" />
+    <Compile Include="Screens\MainMenuScreen.cs" />
+    <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="Utils\DebugUtils.cs" />
   </ItemGroup>
