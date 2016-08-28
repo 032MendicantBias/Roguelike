@@ -49,3 +49,21 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/UI/Button.png
 
+#begin SpriteFonts/DefaultSpriteFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:SpriteFonts/DefaultSpriteFont.spritefont
+
+#begin Sprites/EmptyTextureAsset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/EmptyTextureAsset.png
+

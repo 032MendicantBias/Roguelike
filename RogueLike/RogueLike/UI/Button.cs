@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueLike.CoreObjects;
-using RogueLike.Input;
-using RogueLike.Managers;
 using System.Diagnostics;
 
 namespace RogueLike.UI
@@ -30,6 +28,11 @@ namespace RogueLike.UI
         private Texture2D NormalTexture { get; set; }
 
         /// <summary>
+        /// A reference to the Label UI this button has drawn on it.
+        /// </summary>
+        public Label Label { get; private set; }
+
+        /// <summary>
         /// The event that is fired when the button is clicked.
         /// Subscribe to this event to perform custom behaviour when the button is clicked.
         /// </summary>
@@ -37,13 +40,29 @@ namespace RogueLike.UI
 
         #endregion
 
-        public Button(Vector2 localPosition, 
+        public Button(string text,
+                      Vector2 localPosition, 
                       string buttonTextureAsset = AssetManager.DefaultButtonTextureAsset, 
                       string buttonHighlightedTextureAsset = AssetManager.DefaultHighlightedButtonTextureAsset) :
             base(localPosition, buttonTextureAsset)
         {
             HighlightedTextureAsset = buttonHighlightedTextureAsset;
             UsesCollider = true;    // The button will require a collider 
+
+            Label = AddChild(new Label(text, Vector2.Zero));
+        }
+
+        public Button(string text,
+                      Anchor anchor,
+                      int depth,
+                      string buttonTextureAsset = AssetManager.DefaultButtonTextureAsset,
+                      string buttonHighlightedTextureAsset = AssetManager.DefaultHighlightedButtonTextureAsset) :
+            base(anchor, depth, buttonTextureAsset)
+        {
+            HighlightedTextureAsset = buttonHighlightedTextureAsset;
+            UsesCollider = true;    // The button will require a collider 
+
+            Label = AddChild(new Label(text, Vector2.Zero));
         }
 
         #region Virtual Functions

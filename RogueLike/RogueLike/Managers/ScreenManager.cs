@@ -128,16 +128,10 @@ namespace RogueLike.Managers
             GameMouse.Instance.HandleInput(elapsedGameTime, Vector2.Zero);
             GameMouse.Instance.Update(elapsedGameTime);     // This will also call GameMouse.Instance.Begin() before our ScreenManager's Begin function.
 
-            base.HandleInput(elapsedGameTime, GameMouse.Instance.Transform.Position);
+            base.HandleInput(elapsedGameTime, GameMouse.Instance.Transform.LocalPosition);
 
             // Update the state of the keyboard for this frame so we can work out what keys have been pressed
             GameKeyboard.HandleInput();
-
-            // TODO REMOVE THIS AT A LATER STAGE, THIS IS JUST FOR UTILITY RIGHT NOW
-            if (GameKeyboard.IsKeyPressed(Keys.Escape))
-            {
-                Game.Exit();
-            }
         }
 
         /// <summary>
@@ -215,6 +209,14 @@ namespace RogueLike.Managers
         {
             Debug.Assert(CurrentScreen is T);
             return CurrentScreen as T;
+        }
+
+        /// <summary>
+        /// Ends the game, but calls any end game events before it does.
+        /// </summary>
+        public void EndGame()
+        {
+            Game.Exit();
         }
 
         #endregion

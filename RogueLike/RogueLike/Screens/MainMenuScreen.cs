@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using RogueLike.CoreObjects;
+using RogueLike.Managers;
 using RogueLike.UI;
 
 namespace RogueLike.Screens
@@ -17,11 +19,11 @@ namespace RogueLike.Screens
         {
             CheckShouldLoad();
 
-            Button playButton = AddScreenObject(new Button(new Vector2(ScreenCentre.X, ScreenDimensions.Y * 0.25f)));
+            Button playButton = AddScreenObject(new Button("Play", new Vector2(ScreenCentre.X, ScreenDimensions.Y * 0.25f)));
             playButton.OnClick += delegate { };
 
-            Button exitButton = AddScreenObject(new Button(new Vector2(ScreenCentre.X, ScreenDimensions.Y * 0.75f)));
-            exitButton.OnClick += delegate { };
+            Button exitButton = playButton.AddChild(new Button("Quit", Anchor.kBottomCentre, 2));
+            exitButton.OnClick += delegate { ScreenManager.Instance.EndGame(); };
 
             base.LoadContent();
         }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RogueLike.Managers;
 using RogueLike.ObjectProperties;
 using RogueLike.Physics;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RogueLike.CoreObjects
@@ -27,9 +30,14 @@ namespace RogueLike.CoreObjects
     /// The base class for any UI or game objects in our game.
     /// Marked as abstract, because we should not be able to create an instance of this class as it does not have enough functionality to serve a purpose
     /// </summary>
-    public class BaseObject : Component
+    public class BaseObject : Component, IContainer<BaseObject>
     {
         #region Properties and Fields
+
+        /// <summary>
+        /// An object manager for the children of this object
+        /// </summary>
+        protected ObjectManager<BaseObject> Children { get; private set; }
 
         /// <summary>
         /// A string to store the texture asset for this object
@@ -128,7 +136,23 @@ namespace RogueLike.CoreObjects
         /// A reference to a parent object which we will use for anchoring and positioning our object using the Anchor & Depth properties.
         /// Also useful for navigating a hierarchy at runtime to obtain information about another object (providing the hierarchy is known).
         /// </summary>
-        public BaseObject Parent { get; private set; }
+        private BaseObject parent;
+        public BaseObject Parent
+        {
+            get
+            {
+                return parent;
+            }
+            private set
+            {
+                parent = value;
+
+                if (value != null)
+                {
+                    Transform.Parent = parent.Transform;
+                }
+            }
+        }
 
         #endregion
 
@@ -144,6 +168,7 @@ namespace RogueLike.CoreObjects
             Colour = Color.White;
 
             Transform = new Transform(localPosition, 0, Vector2.Zero);
+            Children = new ObjectManager<BaseObject>();
         }
 
         public BaseObject(Vector2 size, Vector2 localPosition, string textureAsset) :
@@ -164,6 +189,7 @@ namespace RogueLike.CoreObjects
             Colour = Color.White;
 
             Transform = new Transform();
+            Children = new ObjectManager<BaseObject>();
         }
 
         public BaseObject(Vector2 size, Anchor anchor, int depth, string textureAsset) :
@@ -185,6 +211,8 @@ namespace RogueLike.CoreObjects
             // This assert is useful when debugging, because it checks whether our texture was set properly using lazy evaluation.
             // This is not necessary in a release build, but do not remove - it will save your life
             DebugUtils.AssertNotNull(Texture);
+
+            Children.LoadContent();
 
             base.LoadContent();
         }
@@ -229,29 +257,31 @@ namespace RogueLike.CoreObjects
                     if (Anchor.HasFlag(Anchor.kLeft) || Anchor.HasFlag(Anchor.kRight))
                     {
                         float xMultiplier = Anchor.HasFlag(Anchor.kLeft) ? -1 : 1;
-                        Transform.Position = new Vector2(0.5f * xMultiplier * (Parent.Size.X + Depth * Size.X), 0);
+                        Transform.LocalPosition = new Vector2(0.5f * xMultiplier * (Parent.Size.X + Depth * Size.X), 0);
                     }
                     else
                     {
                         float yMultiplier = Anchor.HasFlag(Anchor.kTop) ? -1 : 1;
-                        Transform.Position = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.X + Depth * Size.Y));
+                        Transform.LocalPosition = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.X + Depth * Size.Y));
                     }
                 }
                 else
                 {
                     float yMultiplier = Anchor.HasFlag(Anchor.kTop) ? -1 : 1;
-                    Transform.Position = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.Y + Depth * Size.Y));
+                    Transform.LocalPosition = new Vector2(0, 0.5f * yMultiplier * (Parent.Size.Y + Depth * Size.Y));
 
                     if (Anchor.HasFlag(Anchor.kLeft))
                     {
-                        Transform.Position -= new Vector2(0.5f * (Parent.Size.X + Depth * Size.X));
+                        Transform.LocalPosition -= new Vector2(0.5f * (Parent.Size.X + Depth * Size.X));
                     }
                     else if (Anchor.HasFlag(Anchor.kRight))
                     {
-                        Transform.Position += new Vector2(0.5f * (Parent.Size.X + Depth * Size.Y));
+                        Transform.LocalPosition += new Vector2(0.5f * (Parent.Size.X + Depth * Size.Y));
                     }
                 }
             }
+
+            Children.Initialise();
 
             base.Initialise();
         }
@@ -263,9 +293,11 @@ namespace RogueLike.CoreObjects
         {
             base.Begin();
 
+            Children.Begin();
+
             if (UsesCollider)
             {
-                Collider = new RectangleCollider(Transform.Position, Size);
+                Collider = new RectangleCollider(Transform.LocalPosition, Size);
             }
         }
 
@@ -284,6 +316,11 @@ namespace RogueLike.CoreObjects
                 DebugUtils.AssertNotNull(Collider, "The object has 'UsesCollider' as true, but has no Collider initialised");
                 Collider.HandleInput(mousePosition);
             }
+
+            if (Children.ShouldHandleInput)
+            {
+                Children.HandleInput(elapsedGameTime, mousePosition);
+            }
         }
 
         /// <summary>
@@ -297,7 +334,12 @@ namespace RogueLike.CoreObjects
             if (UsesCollider)
             {
                 DebugUtils.AssertNotNull(Collider, "The object has 'UsesCollider' as true, but has no Collider initialised");
-                Collider.Position = Transform.Position;
+                Collider.Position = Transform.WorldPosition;
+            }
+
+            if (Children.ShouldUpdate)
+            {
+                Children.Update(elapsedGameTime);
             }
         }
 
@@ -315,17 +357,166 @@ namespace RogueLike.CoreObjects
             DebugUtils.AssertNotNull(Texture);
             spriteBatch.Draw(
                 Texture,
-                Transform.Position,
+                Transform.WorldPosition,
                 null,
                 SourceRectangle,
                 TextureCentre,
-                Transform.Rotation,
+                Transform.WorldRotation,
                 Vector2.Divide(Size, TextureDimensions),
                 Colour * Opacity,
                 SpriteEffect,
                 0);
+
+            if (Children.ShouldDraw)
+            {
+                Children.Draw(spriteBatch);
+            }
         }
-        
+
+        /// <summary>
+        /// We must make sure that we show the children if necessary
+        /// </summary>
+        /// <param name="showChildren">A flag to indicate whether the children should be shown</param>
+        public override void Show(bool showChildren = true)
+        {
+            base.Show();
+
+            Children.Show(showChildren);
+        }
+
+        /// <summary>
+        /// We must make sure that we hide the children if necessary
+        /// </summary>
+        /// <param name="hideChildren">A flag to indicate whether the children should be hidden</param>
+        public override void Hide(bool hideChildren = true)
+        {
+            base.Hide();
+
+            Children.Hide(hideChildren);
+        }
+
+        /// <summary>
+        /// We must make sure that we explicitly call Die on each child.
+        /// The IsAlive attributes are connected up, but this will not result in a call to Die.
+        /// </summary>
+        public override void Die()
+        {
+            base.Die();
+
+            Children.Die();
+        }
+
+        #endregion
+
+        #region Extra non-virtual IContainer functions
+
+        /// <summary>
+        /// A function which will be used to add a child and sets it's parent to this
+        /// </summary>
+        /// <typeparam name="K">The type of the child</typeparam>
+        /// <param name="childToAdd">The child itself</param>
+        /// <param name="load">A flag to indicate whether we wish to call LoadContent on the child</param>
+        /// <param name="initialise">A flag to indicate whether we wish to call Initialise on the child</param>
+        /// <returns></returns>
+        public virtual K AddChild<K>(K childToAdd, bool load = false, bool initialise = false) where K : BaseObject
+        {
+            DebugUtils.AssertNotNull(childToAdd);
+            DebugUtils.AssertNull(childToAdd.Parent);
+
+            // Set the parent to be this
+            childToAdd.Parent = this;
+
+            return Children.AddChild(childToAdd, load, initialise);
+        }
+
+        /// <summary>
+        /// A function to remove a child
+        /// </summary>
+        /// <param name="childToRemove">The child we wish to remove</param>
+        public void RemoveChild(BaseObject childToRemove)
+        {
+            DebugUtils.AssertNotNull(childToRemove);
+
+            // This function will set IsAlive to false so that the object gets cleaned up next Update loop
+            Children.RemoveChild(childToRemove);
+        }
+
+        /// <summary>
+        /// Extracts the inputted child from this container, but keeps it alive for insertion into another
+        /// </summary>
+        /// <param name="childToExtract">The child we wish to extract from this container</param>
+        public T ExtractChild<T>(T childToExtract) where T : BaseObject
+        {
+            DebugUtils.AssertNotNull(childToExtract);
+            childToExtract.Parent = null;
+
+            return Children.ExtractChild(childToExtract);
+        }
+
+        /// <summary>
+        /// Searches through the children and returns all that match the inputted type
+        /// </summary>
+        /// <typeparam name="T">The inputted type we will use to find objects</typeparam>
+        /// <returns>All the objects we have found of the inputted type</returns>
+        public List<T> GetChildrenOfType<T>(bool includeObjectsToAdd = false) where T : BaseObject
+        {
+            return Children.GetChildrenOfType<T>(includeObjectsToAdd);
+        }
+
+        /// <summary>
+        /// Finds an object of the inputted name and casts to the inputted type K.
+        /// First searches the ActiveObjects and then the ObjectsToAdd
+        /// </summary>
+        /// <typeparam name="K">The type we wish to return the found object as</typeparam>
+        /// <param name="name">The name of the object we wish to find</param>
+        /// <returns>Returns the object casted to K or null</returns>
+        public K FindChild<K>() where K : BaseObject
+        {
+            return Children.FindChild<K>();
+        }
+
+        /// <summary>
+        /// Finds an object of the inputted name and casts to the inputted type T.
+        /// First searches the ActiveObjects and then the ObjectsToAdd
+        /// </summary>
+        /// <typeparam name="T">The type we wish to return the found object as</typeparam>
+        /// <param name="predicate">The predicate we will use to find our object</param>
+        /// <returns>Returns the object casted to T or null</returns>
+        public T FindChild<T>(Predicate<BaseObject> predicate) where T : BaseObject
+        {
+            return Children.FindChild<T>(predicate);
+        }
+
+        /// <summary>
+        /// Returns whether an object satisfying the inputted predicate exists within our children.
+        /// </summary>
+        /// <param name="predicate">The predicate the child must satisfy</param>
+        /// <returns>True if such a child exists and false if not</returns>
+        public bool Exists(Predicate<BaseObject> predicate)
+        {
+            return Children.Exists(predicate);
+        }
+
+        /// <summary>
+        /// Returns the first child.
+        /// Shouldn't really be called unless we have children
+        /// </summary>
+        /// <returns>The first child we added</returns>
+        public BaseObject FirstChild()
+        {
+            return Children.FirstChild();
+        }
+
+        /// <summary>
+        /// Returns the most recent child we added which is castable to the inputted type.
+        /// Shouldn't really be called unless we have children
+        /// </summary>
+        /// <returns>The most recent child we added</returns>
+        public BaseObject LastChild()
+        {
+            return Children.LastChild();
+        }
+
         #endregion
     }
 }
