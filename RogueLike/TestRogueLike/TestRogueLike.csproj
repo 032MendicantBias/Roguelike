@@ -45,8 +45,11 @@
     <Compile Include="GameObjects\TransformTest.cs" />
     <Compile Include="Managers\TestObjectManager.cs" />
     <Compile Include="Managers\TestScreenManager.cs" />
+    <Compile Include="Physics\Collision\RectangleCircleCollisionTest.cs" />
+    <Compile Include="Physics\Collision\CirclePointCollisionTest.cs" />
+    <Compile Include="Physics\Collision\RectanglePointCollisionTest.cs" />
+    <Compile Include="Physics\Collision\RectangleRectangleCollisionTest.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="TestPhysics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

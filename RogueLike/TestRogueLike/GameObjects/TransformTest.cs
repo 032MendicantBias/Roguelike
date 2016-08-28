@@ -18,8 +18,8 @@ namespace Game1.GameObjects
             Transform parentTransform = new Transform(new Vector2(10, 2), 0.0f, new Vector2(1, 1));
             Transform childTransform = new Transform(parentTransform);
             
-            Assert.AreEqual(parentTransform.Position, childTransform.Position);
-            Assert.AreEqual(parentTransform.Rotation, childTransform.Rotation);
+            Assert.AreEqual(parentTransform.LocalPosition, childTransform.LocalPosition);
+            Assert.AreEqual(parentTransform.LocalRotation, childTransform.LocalRotation);
             Assert.AreEqual(parentTransform.Scale, childTransform.Scale);
         }
     }

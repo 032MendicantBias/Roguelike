@@ -25,7 +25,11 @@ namespace RogueLike
         #region Default Assets
 
         public const string MouseTextureAsset = "UI\\Cursor";
-        
+        public const string DefaultButtonTextureAsset = "UI\\Button";
+        public const string DefaultHighlightedButtonTextureAsset = "UI\\ButtonHighlighted";
+        public const string DefaultSpriteFontAsset = "DefaultSpriteFont";
+        public const string DefaultEmptyTextureAsset = "EmptyTextureAsset";
+
         #endregion
 
         #region Properties
@@ -145,7 +149,7 @@ namespace RogueLike
 
             if (!Sprites.TryGetValue(path, out sprite))
             {
-                // TODO Reimplement
+                // TODO Implement
                 //sprite = LoadFromDisc<Texture2D>(SpritesPath + path);
             }
 
@@ -164,7 +168,7 @@ namespace RogueLike
 
             if (!Effects.TryGetValue(path, out effect))
             {
-                // TODO Reimplement
+                // TODO Implement
                 //effect = LoadFromDisc<Effect>(EffectsPath + path);
             }
 

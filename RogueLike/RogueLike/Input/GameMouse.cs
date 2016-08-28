@@ -85,7 +85,8 @@ namespace RogueLike.Input
         private GameMouse() :
             base(Vector2.Zero, AssetManager.MouseTextureAsset)
         {
-
+            // No collider for the mouse
+            UsesCollider = false;
         }
 
         #region Virtual Functions
@@ -113,7 +114,7 @@ namespace RogueLike.Input
             PreviousMouseState = CurrentMouseState;
             CurrentMouseState = Mouse.GetState();
 
-            Transform.Position = new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
+            Transform.LocalPosition = new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
 
             MouseWheelScrollDelta = CurrentMouseState.ScrollWheelValue - PreviousMouseState.ScrollWheelValue;
         }

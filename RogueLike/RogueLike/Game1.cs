@@ -56,8 +56,7 @@ namespace RogueLike
 
             DebugUtils.AssertNotNull(Content);
             ScreenManager.Instance.Setup(this, spriteBatch, graphics);
-            ScreenManager.Instance.LoadContent();
-            ScreenManager.Instance.Initialise();
+            ScreenManager.Instance.AddChild(new MainMenuScreen(), true, true);
         }
 
         /// <summary>

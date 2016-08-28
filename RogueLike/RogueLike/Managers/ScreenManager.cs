@@ -97,6 +97,26 @@ namespace RogueLike.Managers
         #region Virtual Functions
 
         /// <summary>
+        /// Loads any instance objects like the mouse before the game begins
+        /// </summary>
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            GameMouse.Instance.LoadContent();
+        }
+
+        /// <summary>
+        /// Calls Initialise on any instance objects like the mouse before the game begins
+        /// </summary>
+        public override void Initialise()
+        {
+            base.Initialise();
+
+            GameMouse.Instance.Initialise();
+        }
+
+        /// <summary>
         /// Call HandleInput and Update on the mouse before anything else so that the other objects in the game have the most up to date information.
         /// Obtains information about the current Keyboard state.
         /// </summary>
@@ -108,16 +128,10 @@ namespace RogueLike.Managers
             GameMouse.Instance.HandleInput(elapsedGameTime, Vector2.Zero);
             GameMouse.Instance.Update(elapsedGameTime);     // This will also call GameMouse.Instance.Begin() before our ScreenManager's Begin function.
 
-            base.HandleInput(elapsedGameTime, GameMouse.Instance.Transform.Position);
+            base.HandleInput(elapsedGameTime, GameMouse.Instance.Transform.LocalPosition);
 
             // Update the state of the keyboard for this frame so we can work out what keys have been pressed
             GameKeyboard.HandleInput();
-
-            // TODO REMOVE THIS AT A LATER STAGE, THIS IS JUST FOR UTILITY RIGHT NOW
-            if (GameKeyboard.IsKeyPressed(Keys.Escape))
-            {
-                Game.Exit();
-            }
         }
 
         /// <summary>
@@ -138,7 +152,7 @@ namespace RogueLike.Managers
         /// <summary>
         /// Sets up class variables from the main Game1 class which will be useful for our game.
         /// Loads options from XML.
-        /// MUST be called before LoadContent and Initialise.
+        /// Calls LoadContent and Initialise.
         /// </summary>
         /// <param name="spriteBatch">The SpriteBatch from our Game1 class</param>
         /// <param name="viewport">The Viewport corresponding to the window</param>
@@ -163,9 +177,8 @@ namespace RogueLike.Managers
             // I don't think this should stay here, but I'm putting it here as a hacky fix right now
             AssetManager.LoadAssets(Content);
 
-            // Set up the game mouse
-            GameMouse.Instance.LoadContent();
-            GameMouse.Instance.Initialise();
+            LoadContent();
+            Initialise();
         }
 
         /// <summary>
@@ -196,6 +209,14 @@ namespace RogueLike.Managers
         {
             Debug.Assert(CurrentScreen is T);
             return CurrentScreen as T;
+        }
+
+        /// <summary>
+        /// Ends the game, but calls any end game events before it does.
+        /// </summary>
+        public void EndGame()
+        {
+            Game.Exit();
         }
 
         #endregion
