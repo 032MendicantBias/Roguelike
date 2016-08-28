@@ -97,6 +97,26 @@ namespace RogueLike.Managers
         #region Virtual Functions
 
         /// <summary>
+        /// Loads any instance objects like the mouse before the game begins
+        /// </summary>
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            GameMouse.Instance.LoadContent();
+        }
+
+        /// <summary>
+        /// Calls Initialise on any instance objects like the mouse before the game begins
+        /// </summary>
+        public override void Initialise()
+        {
+            base.Initialise();
+
+            GameMouse.Instance.Initialise();
+        }
+
+        /// <summary>
         /// Call HandleInput and Update on the mouse before anything else so that the other objects in the game have the most up to date information.
         /// Obtains information about the current Keyboard state.
         /// </summary>
@@ -138,7 +158,7 @@ namespace RogueLike.Managers
         /// <summary>
         /// Sets up class variables from the main Game1 class which will be useful for our game.
         /// Loads options from XML.
-        /// MUST be called before LoadContent and Initialise.
+        /// Calls LoadContent and Initialise.
         /// </summary>
         /// <param name="spriteBatch">The SpriteBatch from our Game1 class</param>
         /// <param name="viewport">The Viewport corresponding to the window</param>
@@ -163,9 +183,8 @@ namespace RogueLike.Managers
             // I don't think this should stay here, but I'm putting it here as a hacky fix right now
             AssetManager.LoadAssets(Content);
 
-            // Set up the game mouse
-            GameMouse.Instance.LoadContent();
-            GameMouse.Instance.Initialise();
+            LoadContent();
+            Initialise();
         }
 
         /// <summary>

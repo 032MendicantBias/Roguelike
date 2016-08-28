@@ -270,6 +270,23 @@ namespace RogueLike.CoreObjects
         }
 
         /// <summary>
+        /// Calls HandleInput on the collider if it is being used.
+        /// This allows us to check if this object has been clicked, mouse hovered over etc.
+        /// </summary>
+        /// <param name="elapsedGameTime"></param>
+        /// <param name="mousePosition"></param>
+        public override void HandleInput(float elapsedGameTime, Vector2 mousePosition)
+        {
+            base.HandleInput(elapsedGameTime, mousePosition);
+
+            if (UsesCollider)
+            {
+                DebugUtils.AssertNotNull(Collider, "The object has 'UsesCollider' as true, but has no Collider initialised");
+                Collider.HandleInput(mousePosition);
+            }
+        }
+
+        /// <summary>
         /// Update the position of our collider using this object's transform
         /// </summary>
         /// <param name="elapsedGameTime"></param>
@@ -279,7 +296,7 @@ namespace RogueLike.CoreObjects
 
             if (UsesCollider)
             {
-                DebugUtils.AssertNotNull(Collider);
+                DebugUtils.AssertNotNull(Collider, "The object has 'UsesCollider' as true, but has no Collider initialised");
                 Collider.Position = Transform.Position;
             }
         }
