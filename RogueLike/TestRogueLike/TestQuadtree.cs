@@ -1,6 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xna.Framework;
-using RogueLike;
 using RogueLike.CoreObjects;
 using System.Collections.Generic;
 
@@ -15,6 +13,8 @@ namespace TestRogueLike
         public static void Initialise()
         {
             objects = new List<BaseObject>();
+
+            // TODO: Add objects for collision detection
         }
     }
 }

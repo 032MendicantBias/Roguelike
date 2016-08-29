@@ -6,8 +6,7 @@ namespace RogueLike.Physics.QuadtreeSpace
 {
     public class Quadtree
     {
-        private int MAX_OBJECTS = 10;
-        private int MAX_LEVELS = 5;
+        private const int MAX_LEVELS = 5;
 
         private int Level;
         private Rektangle Bounds;
@@ -20,31 +19,10 @@ namespace RogueLike.Physics.QuadtreeSpace
             Bounds = bounds;
             Objects = new List<BaseObject>();
             Nodes = new Quadtree[4];
-        }
 
-        public void Insert(BaseObject obj)
-        {
-            if(!obj.Collider.CollidedWithRectangle(Bounds))
-            {
-                return;
-            }
-
-            Objects.Add(obj);
-
-            if(Level < MAX_LEVELS && Objects.Count > MAX_OBJECTS && Nodes == null)
+            if (Level < MAX_LEVELS && Nodes == null)
             {
                 Split();
-            }
-
-            if(Nodes != null)
-            {
-                foreach (Quadtree node in Nodes)
-                {
-                    if (obj.Collider.CollidedWithRectangle(node.Bounds))
-                    {
-                        node.Insert(obj);
-                    }
-                }
             }
         }
 
@@ -59,6 +37,24 @@ namespace RogueLike.Physics.QuadtreeSpace
             Nodes[1] = new Quadtree(Level + 1, new Rektangle(x + width, y, width, height));
             Nodes[2] = new Quadtree(Level + 1, new Rektangle(x, y + height, width, height));
             Nodes[3] = new Quadtree(Level + 1, new Rektangle(x + width, y + height, width, height));
+        }
+
+        public void Insert(BaseObject obj)
+        {
+            if(!obj.Collider.CollidedWithRectangle(Bounds))
+            {
+                return;
+            }
+
+            Objects.Add(obj);
+
+            if(Nodes != null)
+            {
+                foreach (Quadtree node in Nodes)
+                {
+                    node.Insert(obj);
+                }
+            }
         }
 
         public List<BaseObject> Retrieve(List<BaseObject> returnObjects, BaseObject obj)
