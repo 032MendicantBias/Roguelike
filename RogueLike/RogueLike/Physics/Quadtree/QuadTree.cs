@@ -57,7 +57,7 @@ namespace RogueLike.Physics.QuadtreeSpace
             }
         }
 
-        public List<BaseObject> Retrieve(List<BaseObject> returnObjects, BaseObject obj)
+        public void Retrieve(List<BaseObject> returnObjects, BaseObject obj)
         {
             if (Nodes != null)
             {
@@ -70,8 +70,6 @@ namespace RogueLike.Physics.QuadtreeSpace
             {
                 returnObjects.AddRange(Objects);
             }
-
-            return returnObjects;
         }
 
         public void Clear()
